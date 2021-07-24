@@ -2,8 +2,6 @@ package com.alfonso.login.util
 
 import com.alfonso.general.model.response.GenericResponse
 import com.alfonso.general.model.response.NothingResponse
-import com.alfonso.general.response.GeneralResponse
-import com.alfonso.general.response.Response
 
 class LoginResponseRest {
     companion object {
