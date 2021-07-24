@@ -1,7 +1,5 @@
 package com.alfonso.routing
 
-import com.alfonso.model.ServiceResponse
-import com.alfonso.model.database.ApiKeyDB
 import com.alfonso.model.request.ApiKeyRequest
 import com.alfonso.model.response.GenericResponse
 import com.alfonso.model.response.NothingResponse

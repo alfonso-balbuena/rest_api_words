@@ -27,7 +27,7 @@ class LoginServiceImp(private val repositoryUser : IRepositoryUser,private val t
     override suspend fun register(userData: UserAddRequest): ServiceResponse<UserResponse> {
         val userValidate = repositoryUser.getUser(userData.userIdProvider,userData.provider)
         return if(userValidate == null) {
-            val userDB = repositoryUser.insertUser(UserDB(null,userData.email,userData.name,userData.imgPath,userData.userIdProvider,userData.provider,ArrayList<TokenDB>()))
+            val userDB = repositoryUser.insertUser(UserDB(null,userData.email,userData.name,userData.imgPath,userData.userIdProvider,userData.provider,ArrayList()))
             if(userDB != null)  login(LoginRequest(userData.userIdProvider,userData.provider))
             else ServiceResponse.Error(1,"Unexpected error")
         } else ServiceResponse.Error(11,"The user exists already")
