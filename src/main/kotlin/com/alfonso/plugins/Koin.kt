@@ -1,14 +1,22 @@
 package com.alfonso.plugins
 
-import com.alfonso.repository.IRepositoryApiKey
-import com.alfonso.repository.IRepositoryTag
-import com.alfonso.repository.IRepositoryUser
-import com.alfonso.repository.mongodb.MongoDB
-import com.alfonso.repository.mongodb.RepositoryApiKeyImp
-import com.alfonso.repository.mongodb.RepositoryTagImp
-import com.alfonso.repository.mongodb.RepositoryUserImp
-import com.alfonso.service.*
-import com.alfonso.service.imp.*
+import com.alfonso.apikey.service.ApiKeyService
+import com.alfonso.apikey.service.AuthService
+import com.alfonso.apikey.service.imp.ApiKeyServiceImp
+import com.alfonso.apikey.service.imp.AuthServiceImp
+import com.alfonso.login.service.LoginService
+import com.alfonso.login.service.TokenService
+import com.alfonso.login.service.imp.LoginServiceImp
+import com.alfonso.login.service.imp.TokenServiceImp
+import com.alfonso.apikey.repository.IRepositoryApiKey
+import com.alfonso.tag.repository.IRepositoryTag
+import com.alfonso.login.repository.IRepositoryUser
+import com.alfonso.general.repository.mongodb.MongoDB
+import com.alfonso.apikey.repository.mongodb.RepositoryApiKeyImp
+import com.alfonso.tag.repository.mongodb.RepositoryTagImp
+import com.alfonso.login.repository.mongodb.RepositoryUserImp
+import com.alfonso.tag.service.*
+import com.alfonso.tag.service.imp.*
 import io.ktor.application.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -35,7 +43,7 @@ val moduleLoginAppProduction = module {
 
 val moduleTagAppProduction = module {
     single<TagService> { TagServiceImp(get())}
-    single<IRepositoryTag> { RepositoryTagImp(get())}
+    single<IRepositoryTag> { RepositoryTagImp(get()) }
 }
 fun Application.configureKoin() {
     val env = environment.config.propertyOrNull("ktor.environment")?.getString()

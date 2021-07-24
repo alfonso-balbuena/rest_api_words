@@ -1,7 +1,7 @@
 package com.alfonso.plugins
 
-import com.alfonso.response.AuthServiceResponse
-import com.alfonso.service.AuthService
+import com.alfonso.apikey.response.AuthServiceResponse
+import com.alfonso.apikey.service.AuthService
 import io.ktor.auth.*
 import io.ktor.application.*
 import org.koin.ktor.ext.inject

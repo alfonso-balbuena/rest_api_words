@@ -1,18 +1,16 @@
 package com.alfonso.plugins
 
-import com.alfonso.routing.userRouting
-import com.alfonso.routing.wordTestRouting
+import com.alfonso.test.wordTestRouting
 import io.ktor.routing.*
 import io.ktor.application.*
 import io.ktor.auth.*
-import com.alfonso.routing.loginRouting
+import com.alfonso.login.loginRouting
 
 fun Application.configureRouting() {
 
     routing {
         authenticate("auth-basic") {
             wordTestRouting()
-            userRouting()
             loginRouting()
         }
     }
