@@ -1,6 +1,5 @@
 package com.alfonso.model.response
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable

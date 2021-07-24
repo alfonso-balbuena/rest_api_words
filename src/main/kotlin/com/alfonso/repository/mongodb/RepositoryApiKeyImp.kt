@@ -2,13 +2,10 @@ package com.alfonso.repository.mongodb
 
 import com.alfonso.model.database.ApiKeyDB
 import com.alfonso.repository.IRepositoryApiKey
-import com.mongodb.client.MongoDatabase
 import io.ktor.utils.io.*
 import org.litote.kmongo.eq
 import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollection
 import java.lang.Exception
 
 class RepositoryApiKeyImp(private val dataBase : CoroutineDatabase) : IRepositoryApiKey {

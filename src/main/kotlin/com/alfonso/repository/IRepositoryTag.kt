@@ -1,7 +1,6 @@
 package com.alfonso.repository
 
 import com.alfonso.model.database.TagCollectionDB
-import com.alfonso.model.database.TagDB
 import com.alfonso.model.request.TagRequest
 
 interface IRepositoryTag {

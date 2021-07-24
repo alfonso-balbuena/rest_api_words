@@ -13,7 +13,6 @@ import io.ktor.application.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
-import org.koin.ktor.ext.modules
 
 val moduleApp : (String,String) -> Module =   { connectionString, database ->
     module {

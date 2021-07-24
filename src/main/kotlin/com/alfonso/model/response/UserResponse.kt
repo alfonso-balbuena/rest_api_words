@@ -1,6 +1,5 @@
 package com.alfonso.model.response
 
-import com.alfonso.model.database.TokenDB
 import kotlinx.serialization.Serializable
 
 @Serializable

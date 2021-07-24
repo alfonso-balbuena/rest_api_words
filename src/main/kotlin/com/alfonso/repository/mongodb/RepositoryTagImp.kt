@@ -4,16 +4,11 @@ import com.alfonso.model.database.TagCollectionDB
 import com.alfonso.model.database.TagDB
 import com.alfonso.model.request.TagRequest
 import com.alfonso.repository.IRepositoryTag
-import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.FindOneAndUpdateOptions
 import com.mongodb.client.model.Updates
-import io.ktor.utils.io.*
-import org.litote.kmongo.getCollection
 import java.lang.Exception
 import org.litote.kmongo.eq
 import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.findOne
 
 class RepositoryTagImp(private val dataBase : CoroutineDatabase) : IRepositoryTag {
     private val TAG_API_COLLECTION = "tags"

@@ -1,7 +1,6 @@
 package com.alfonso.routing
 
 import com.alfonso.model.database.UserDB
-import com.mongodb.client.MongoDatabase
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
