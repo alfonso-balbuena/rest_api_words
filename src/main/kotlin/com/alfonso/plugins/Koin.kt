@@ -1,22 +1,19 @@
 package com.alfonso.plugins
 
 import com.alfonso.repository.IRepositoryApiKey
+import com.alfonso.repository.IRepositoryTag
 import com.alfonso.repository.IRepositoryUser
 import com.alfonso.repository.mongodb.MongoDB
 import com.alfonso.repository.mongodb.RepositoryApiKeyImp
+import com.alfonso.repository.mongodb.RepositoryTagImp
 import com.alfonso.repository.mongodb.RepositoryUserImp
-import com.alfonso.service.ApiKeyService
-import com.alfonso.service.AuthService
-import com.alfonso.service.LoginService
-import com.alfonso.service.TokenService
-import com.alfonso.service.imp.ApiKeyServiceImp
-import com.alfonso.service.imp.AuthServiceImp
-import com.alfonso.service.imp.LoginServiceImp
-import com.alfonso.service.imp.TokenServiceImp
+import com.alfonso.service.*
+import com.alfonso.service.imp.*
 import io.ktor.application.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.ktor.ext.Koin
+import org.koin.ktor.ext.modules
 
 val moduleApp : (String,String) -> Module =   { connectionString, database ->
     module {
@@ -37,6 +34,10 @@ val moduleLoginAppProduction = module {
     single<IRepositoryUser> { RepositoryUserImp(get()) }
 }
 
+val moduleTagAppProduction = module {
+    single<TagService> { TagServiceImp(get())}
+    single<IRepositoryTag> { RepositoryTagImp(get())}
+}
 fun Application.configureKoin() {
     val env = environment.config.propertyOrNull("ktor.environment")?.getString()
     val (conn,db) = getDataBaseConf(env)
@@ -44,6 +45,7 @@ fun Application.configureKoin() {
         modules(moduleApp(conn,db))
         modules(moduleApiKeyAppProduction)
         modules(moduleLoginAppProduction)
+        modules(moduleTagAppProduction)
     }
 }
 
