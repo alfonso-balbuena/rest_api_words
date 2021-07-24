@@ -12,7 +12,9 @@ fun main(args: Array<String>) : Unit = EngineMain.main(args)
 fun Application.module(testing: Boolean = false) {
     configureSerialization()
     install(CallLogging)
-    configureKoin()
-    configureSecurity()
-    configureRouting()
+    configureKoin(testing)
+    if(!testing) {
+        configureSecurity()
+    }
+    configureRouting(testing)
 }

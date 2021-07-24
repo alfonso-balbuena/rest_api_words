@@ -45,14 +45,16 @@ val moduleTagAppProduction = module {
     single<TagService> { TagServiceImp(get())}
     single<IRepositoryTag> { RepositoryTagImp(get()) }
 }
-fun Application.configureKoin() {
-    val env = environment.config.propertyOrNull("ktor.environment")?.getString()
-    val (conn,db) = getDataBaseConf(env)
-    install(Koin) {
-        modules(moduleApp(conn,db))
-        modules(moduleApiKeyAppProduction)
-        modules(moduleLoginAppProduction)
-        modules(moduleTagAppProduction)
+fun Application.configureKoin(testing: Boolean = false) {
+    if(!testing) {
+        val env = environment.config.propertyOrNull("ktor.environment")?.getString()
+        val (conn,db) = getDataBaseConf(env)
+        install(Koin) {
+            modules(moduleApp(conn,db))
+            modules(moduleApiKeyAppProduction)
+            modules(moduleLoginAppProduction)
+            modules(moduleTagAppProduction)
+        }
     }
 }
 

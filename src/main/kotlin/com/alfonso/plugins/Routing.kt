@@ -6,10 +6,15 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import com.alfonso.login.loginRouting
 
-fun Application.configureRouting() {
+fun Application.configureRouting(testing: Boolean = false) {
 
     routing {
-        authenticate("auth-basic") {
+        if(!testing) {
+            authenticate("auth-basic") {
+                wordTestRouting()
+                loginRouting()
+            }
+        } else {
             wordTestRouting()
             loginRouting()
         }
