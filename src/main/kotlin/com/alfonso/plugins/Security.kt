@@ -1,6 +1,6 @@
 package com.alfonso.plugins
 
-import com.alfonso.model.ServiceResponse
+import com.alfonso.response.AuthServiceResponse
 import com.alfonso.service.AuthService
 import io.ktor.auth.*
 import io.ktor.application.*
@@ -13,7 +13,7 @@ fun Application.configureSecurity() {
             realm = "Access to the '/' path "
             validate { credentials ->
                 when(val result = authService.validateUserPass(credentials.name,credentials.password)) {
-                    is ServiceResponse.Success<*> -> UserIdPrincipal(credentials.name)
+                    is AuthServiceResponse.Success -> UserIdPrincipal(credentials.name)
                     else -> null
                 }
             }

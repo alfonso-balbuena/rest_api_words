@@ -5,6 +5,7 @@ import com.alfonso.model.database.ApiKeyDB
 import com.alfonso.model.request.ApiKeyRequest
 import com.alfonso.model.response.GenericResponse
 import com.alfonso.model.response.NothingResponse
+import com.alfonso.response.AuthServiceResponse
 import com.alfonso.service.AuthService
 import io.ktor.application.*
 import io.ktor.request.*
@@ -18,12 +19,12 @@ fun Route.apiKeyRouting() {
         post {
             val user = call.receive<ApiKeyRequest>()
             when (val result = authService.addApiKey(user.user)) {
-                is ServiceResponse.Success<ApiKeyDB> ->  {
-                    val apiResponse = result.data
+                is AuthServiceResponse.Success ->  {
+                    val apiResponse = result.value
                     call.respond(GenericResponse(0, "", apiResponse))
                 }
-                is ServiceResponse.Error -> {
-                    call.respond(GenericResponse(result.code, result.message, NothingResponse()))
+                is AuthServiceResponse.UnexpectedError -> {
+                    call.respond(GenericResponse(1, "Unexpected error", NothingResponse()))
                 }
             }
 
