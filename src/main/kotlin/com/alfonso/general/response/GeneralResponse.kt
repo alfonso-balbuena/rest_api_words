@@ -19,7 +19,7 @@ class GeneralResponse {
             return GenericResponse(successWithData.code,successWithData.message,data)
         }
 
-        private fun getGenericResponse(response: Response) : GenericResponse<NothingResponse> {
+        fun getGenericResponse(response: Response) : GenericResponse<NothingResponse> {
             return GenericResponse(response.code, response.message, NothingResponse())
         }
     }

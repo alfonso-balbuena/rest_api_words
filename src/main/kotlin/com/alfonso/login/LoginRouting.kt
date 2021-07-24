@@ -7,6 +7,7 @@ import com.alfonso.general.model.response.NothingResponse
 import com.alfonso.general.response.GeneralResponse
 import com.alfonso.login.service.LoginService
 import com.alfonso.login.service.LoginServiceResponse
+import com.alfonso.login.util.LoginResponseRest
 import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -26,8 +27,7 @@ fun Route.loginRouting() {
                     call.respond(GeneralResponse.getSuccessWithData(userResponse))
                 }
                 is LoginServiceResponse.UnexpectedError -> call.respond(GeneralResponse.getUnexpectedErrorResponse())
-                is LoginServiceResponse.NoUserError -> TODO()
-                is LoginServiceResponse.UserExistError -> TODO()
+                else -> loginGeneralErrorRespond(call,result)
             }
         }
     }
@@ -39,8 +39,7 @@ fun Route.loginRouting() {
             when(val result = loginService.logout(dataLogout.auth)) {
                 is LoginServiceResponse.Success -> call.respond(GeneralResponse.getSuccess())
                 is LoginServiceResponse.UnexpectedError -> call.respond(GeneralResponse.getUnexpectedErrorResponse())
-                is LoginServiceResponse.NoUserError -> TODO()
-                is LoginServiceResponse.UserExistError -> TODO()
+                else -> loginGeneralErrorRespond(call,result)
             }
         }
     }
@@ -52,8 +51,16 @@ fun Route.loginRouting() {
             when (val result = loginService.register(user)) {
                 is LoginServiceResponse.Success -> call.respond(GeneralResponse.getSuccessWithData(result.value))
                 is LoginServiceResponse.UnexpectedError -> call.respond(GeneralResponse.getUnexpectedErrorResponse())
-                is LoginServiceResponse.NoUserError -> TODO()
-                is LoginServiceResponse.UserExistError -> TODO()
+                else -> loginGeneralErrorRespond(call,result)
             }
         }
-    }}
+    }
+}
+
+suspend fun loginGeneralErrorRespond(call: ApplicationCall,loginServiceResponse: LoginServiceResponse) {
+    when(loginServiceResponse) {
+        is LoginServiceResponse.NoUserError -> call.respond(LoginResponseRest.getNoUserErrorResponse())
+        is LoginServiceResponse.UserExistError -> call.respond(LoginResponseRest.getUserExistErrorResponse())
+        else -> call.respond("Error")
+    }
+}
