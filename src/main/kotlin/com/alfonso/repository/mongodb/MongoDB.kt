@@ -2,14 +2,14 @@ package com.alfonso.repository.mongodb
 
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
-import com.mongodb.client.MongoDatabase
-import org.litote.kmongo.*
+import org.litote.kmongo.coroutine.*
+import org.litote.kmongo.reactivestreams.KMongo
 
 object MongoDB {
-    fun getDataBase(connection: String, databaseString : String) : MongoDatabase {
+    fun getDataBase(connection: String, databaseString : String) : CoroutineDatabase {
         val connectionString = ConnectionString(connection)
         val settings = MongoClientSettings.builder().applyConnectionString(connectionString).build()
-        val mongoClient = KMongo.createClient(settings)
+        val mongoClient = KMongo.createClient(settings).coroutine
         return mongoClient.getDatabase(databaseString)
     }
 }

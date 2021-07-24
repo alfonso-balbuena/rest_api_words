@@ -7,7 +7,7 @@ import com.alfonso.model.request.UserAddRequest
 import com.alfonso.model.response.UserResponse
 
 interface LoginService {
-    fun login(dataLogin : LoginRequest) : ServiceResponse<UserResponse>
-    fun register(userData: UserAddRequest) : ServiceResponse<UserResponse>
-    fun logout(data: AuthRequest) : ServiceResponse<Boolean>
+    suspend fun login(dataLogin : LoginRequest) : ServiceResponse<UserResponse>
+    suspend fun register(userData: UserAddRequest) : ServiceResponse<UserResponse>
+    suspend fun logout(data: AuthRequest) : ServiceResponse<Boolean>
 }
