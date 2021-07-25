@@ -12,7 +12,6 @@ import com.alfonso.login.service.LoginService
 import com.alfonso.login.service.TokenService
 import com.alfonso.login.service.imp.LoginServiceImp
 import com.alfonso.login.service.imp.TokenServiceFake
-import com.alfonso.login.service.imp.TokenServiceImp
 import com.alfonso.module
 import io.ktor.application.*
 import io.ktor.http.*
@@ -29,7 +28,6 @@ import kotlin.test.assertNotNull
 
 class LoginTest : KoinTest {
 
-    val authServiceFake by inject<AuthService>()
     val repositoryUserFake by inject<IRepositoryUser>()
 
     private val loginModuleTest = module {
@@ -58,7 +56,6 @@ class LoginTest : KoinTest {
                 val responseObject = Json.decodeFromString<GenericResponse<UserResponse>>(response.content!!)
                 assertEquals(fakeResponse,responseObject.data)
                 assertEquals(0,responseObject.code)
-
             }
         }
     }
@@ -70,7 +67,7 @@ class LoginTest : KoinTest {
             module(true)
         }) {
             val fakeRepository = repositoryUserFake as RepositoryUserFake
-            fakeRepository.hasError = true
+            fakeRepository.isReturningNull = true
             with(handleRequest(HttpMethod.Post, "/login"){
                 addHeader(HttpHeaders.ContentType,"application/json")
                 setBody("{\"id\" : \"113031883981083652781\", \"provider\" : \"google\"}")
