@@ -7,4 +7,5 @@ sealed class LoginServiceResponse {
     object NoUserError : LoginServiceResponse()
     object UserExistError : LoginServiceResponse()
     object UnexpectedError : LoginServiceResponse()
+    class FieldsMissingError(val fields : List<String>): LoginServiceResponse()
 }

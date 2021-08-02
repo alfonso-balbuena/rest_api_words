@@ -19,7 +19,7 @@ class LoginResponseRest {
         }
 
         private fun getResponseLogin(response: LoginResponseCode) : GenericResponse<NothingResponse> {
-            return GenericResponse(response.code,response.message, NothingResponse())
+            return GenericResponse(response.code,response.message)
         }
     }
 

@@ -9,10 +9,18 @@ import com.alfonso.login.repository.IRepositoryUser
 import com.alfonso.login.service.LoginServiceResponse
 import com.alfonso.login.service.LoginService
 import com.alfonso.login.service.TokenService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class LoginServiceImp(private val repositoryUser : IRepositoryUser, private val tokenService : TokenService) :
     LoginService {
+    companion object {
+        val logger : Logger = LoggerFactory.getLogger(LoginServiceImp::class.java)
+    }
     override suspend fun login(dataLogin: LoginRequest): LoginServiceResponse {
+        val validation = dataLogin.validateLoginRequest()
+        if(validation.isNotEmpty())
+            return LoginServiceResponse.FieldsMissingError(validation)
         val user = repositoryUser.getUser(dataLogin.id,dataLogin.provider)
         return if(user != null) {
             val newToken = tokenService.getToken()

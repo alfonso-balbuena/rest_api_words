@@ -60,11 +60,6 @@ class LoginServiceTest {
     }
 
     @Test
-    fun registerUserSuccess() {
-        //TODO
-    }
-
-    @Test
     fun logoutNoUserError(): Unit = runBlocking {
         repositoryFake.isReturningNull = true
         val response = loginService.logout(AuthRequest("1","token"))
@@ -76,5 +71,13 @@ class LoginServiceTest {
         repositoryFake.isReturningNull = false
         val response = loginService.logout(AuthRequest("1","token"))
         assertIs<LoginServiceResponse.Success>(response)
+    }
+
+    @Test
+    fun logoutUnexpectedError() : Unit = runBlocking {
+        repositoryFake.isGetUserIdNull = false
+        repositoryFake.isUpdateUserNoUpdate = true
+        val response = loginService.logout(AuthRequest("1","token"))
+        assertIs<LoginServiceResponse.UnexpectedError>(response)
     }
 }
