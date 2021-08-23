@@ -4,25 +4,35 @@ import com.alfonso.tag.model.database.TagCollectionDB
 import com.alfonso.tag.model.database.TagDB
 import com.alfonso.tag.model.request.TagRequest
 import com.alfonso.tag.repository.IRepositoryTag
+import com.mongodb.client.model.FindOneAndUpdateOptions
+import com.mongodb.client.model.ReturnDocument
 import com.mongodb.client.model.Updates
+import org.bson.BsonDocument
+import org.bson.BsonString
 import java.lang.Exception
 import org.litote.kmongo.eq
-import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase
 
 class RepositoryTagImp(private val dataBase : CoroutineDatabase) : IRepositoryTag {
     private val TAG_API_COLLECTION = "tags"
 
+    private val options = FindOneAndUpdateOptions().apply {
+        returnDocument(ReturnDocument.AFTER)
+    }
+
     override suspend fun insertTag(userId: String, tag : TagRequest): TagCollectionDB? {
         val collection = getCollection()
         val update = Updates.push("tags",TagDB(tag.name,tag.color))
-        return collection.findOneAndUpdate(TagCollectionDB::userId eq userId,update)
+        return collection.findOneAndUpdate(TagCollectionDB::userId eq userId,update,options)
     }
 
     override suspend fun updateTag(userId: String, tag: TagRequest): TagCollectionDB? {
         val collection = getCollection()
-        val update = Updates.push("tags.$",TagDB(tag.name,tag.color))
-        return collection.findOneAndUpdate(and(TagCollectionDB::userId eq userId,TagDB::name eq tag.name),update)
+        val update = Updates.set("tags.$.color",tag.color)
+        val filter = BsonDocument()
+        filter.append("userId",BsonString(userId))
+        filter.append("tags.name",BsonString(tag.name))
+        return collection.findOneAndUpdate(filter,update,options)
     }
 
     override suspend fun getTag(userId: String): TagCollectionDB? {
